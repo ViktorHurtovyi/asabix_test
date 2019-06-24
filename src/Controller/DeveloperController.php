@@ -18,14 +18,19 @@ class DeveloperController extends AbstractController
     {
         $developer = $this->getDoctrine()
             ->getRepository(Developer::class)
-            ->find($id);
+            ->findAllProjectById($id);
 
         if (!$developer) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $id
             );
         }
+        $str = '';
 
-        return new Response('Check out this great product: ' . $developer->getName());
+        foreach ($developer as $dev){
+            $str .= '<br> - '.$dev['name'];
+        }
+
+        return new Response('Check out this great product: ' . $str);
     }
 }
