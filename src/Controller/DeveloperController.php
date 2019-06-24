@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Developer;
@@ -11,20 +10,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DeveloperController extends AbstractController
 {
     /**
-     * @Route("/projects/{id}", name="developer")
+     * @Route("/developer/{id}", name="developer")
+     * @param $id
+     * @return Response
      */
-    public function showProjects($id)
+    public function showDeveloper($id)
     {
-        $product = $this->getDoctrine()
+        $developer = $this->getDoctrine()
             ->getRepository(Developer::class)
             ->find($id);
 
-        if (!$product) {
+        if (!$developer) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $id
             );
         }
 
-        return new Response('Check out this great product: ' . $product->getName());
+        return new Response('Check out this great product: ' . $developer->getName());
     }
 }

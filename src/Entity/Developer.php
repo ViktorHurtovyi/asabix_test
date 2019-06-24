@@ -4,11 +4,34 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DeveloperRepository")
  */
 class Developer
 {
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="developers")
+     */
+    private $projects;
+
+    /**
+     * @return mixed
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * @param mixed $projects
+     */
+    public function setProjects($projects): void
+    {
+        $this->projects = $projects;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -9,6 +9,29 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Project
 {
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Developer", inversedBy="projects")
+     */
+    private $developers;
+
+    /**
+     * @return mixed
+     */
+    public function getDevelopers()
+    {
+        return $this->developers;
+    }
+
+    /**
+     * @param mixed $developers
+     */
+    public function setDevelopers($developers): void
+    {
+        $this->developers = $developers;
+    }
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -18,7 +41,7 @@ class Project
 
     /**
      * @ORM\Column(type="string", length=255)
-      */
+     */
 
     private $name;
 

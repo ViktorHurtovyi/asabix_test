@@ -2,18 +2,25 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use App\Entity\Project;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends AbstractController
 {
     /**
-     * @Route("/project", name="project")
+     * @Route("/project/{id}", name="project")
      */
-    public function index()
+    public function showProject($id)
     {
-        return $this->render('project/index.html.twig', [
-            'controller_name' => 'ProjectController',
-        ]);
+        $project = $this->getDoctrine()->getRepository(Project::class)->find($id);
+
+        if (!$project) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
+            );
+        }
+        return new Response('Project name is: ' . $project->getName());
     }
 }
