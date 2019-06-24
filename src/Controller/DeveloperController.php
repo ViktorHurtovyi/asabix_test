@@ -20,11 +20,6 @@ class DeveloperController extends AbstractController
             ->getRepository(Developer::class)
             ->findAllProjectById($id);
 
-        if (!$developer) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
-        }
         $str = '';
 
         foreach ($developer as $dev){
