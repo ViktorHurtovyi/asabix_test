@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Developer;
 use App\Entity\Project;
+use App\Entity\Project_Developer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -21,15 +23,14 @@ class ProjectRepository extends ServiceEntityRepository
 
     public function findAllDeveloperById($id): array
     {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = 'SELECT developer.name FROM developer LEFT JOIN project_developer ON developer.id = project_developer.developer_id LEFT JOIN project ON project.id = project_developer.project_id WHERE project.id = 
-        ' . $id;
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['price' => 10]);
-
-        // возвращает массив массивов (т.е. набор чистых данных)
-        return $stmt->fetchAll();
+        return $this->createQueryBuilder('p')
+            ->select('d.name')
+            ->leftJoin(Project_Developer::class, 'p_d',  "WITH",'p_d.project_id = p.id')
+            ->leftJoin(Developer::class, 'd',  "WITH",'p_d.developer_id = d.id')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
     }
 
 
