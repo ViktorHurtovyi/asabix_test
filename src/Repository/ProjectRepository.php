@@ -19,6 +19,21 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function findAllDeveloperById($id): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT developer.name FROM developer LEFT JOIN project_developer ON developer.id = project_developer.developer_id LEFT JOIN project ON project.id = project_developer.project_id WHERE project.id = 
+        ' . $id;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['price' => 10]);
+
+        // возвращает массив массивов (т.е. набор чистых данных)
+        return $stmt->fetchAll();
+    }
+
+
+
     // /**
     //  * @return Project[] Returns an array of Project objects
     //  */

@@ -11,16 +11,22 @@ class ProjectController extends AbstractController
 {
     /**
      * @Route("/project/{id}", name="project")
+     * @param $id
+     * @return Response
      */
-    public function showProject($id)
+    public function showProject($id=0)
     {
-        $project = $this->getDoctrine()->getRepository(Project::class)->find($id);
+        $id = preg_replace("/[^0-9]/", '', $id);
+        $developer = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->findAllDeveloperById($id);
 
-        if (!$project) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
+        $str = '';
+
+        foreach ($developer as $dev){
+            $str .= '<br> - '.$dev['name'];
         }
-        return new Response('Project name is: ' . $project->getName());
+
+        return new Response('Projects name: ' . $str);
     }
 }

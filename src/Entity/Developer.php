@@ -17,6 +17,22 @@ class Developer
     private $projects;
 
     /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @return mixed
+     */
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @return mixed
      */
     public function getProjects()
@@ -32,17 +48,6 @@ class Developer
         $this->projects = $projects;
     }
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
 
     public function getId(): ?int
     {

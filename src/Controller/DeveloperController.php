@@ -14,8 +14,9 @@ class DeveloperController extends AbstractController
      * @param $id
      * @return Response
      */
-    public function showDeveloper($id)
+    public function showDeveloper($id=0)
     {
+        $id = preg_replace("/[^0-9]/", '', $id);
         $developer = $this->getDoctrine()
             ->getRepository(Developer::class)
             ->findAllProjectById($id);
@@ -26,6 +27,6 @@ class DeveloperController extends AbstractController
             $str .= '<br> - '.$dev['name'];
         }
 
-        return new Response('Check out this great product: ' . $str);
+        return new Response('Developers name: ' . $str);
     }
 }
